@@ -1,0 +1,15 @@
+Student ID:47068591
+
+Statement
+---------
+ChatGPT 5 was used in the process of writing this assignment. I used chatGPT for inspiration, concept tutoring, and
+bug-hunting. None of the code itself is provided by genAI. I used it to ask questions about the problems, specifically
+telling it to not give me any code. One of prompts used is:
+"Im working on a project to create data structures
+with only primitive types and operations. I can only use Java primitive types like int, char, boolean, static arrays
+(like int[], Object[]), control structures, classes, methods, constructors, generics, System.out, Math, and basic
+exception handling. Dont give me any code, only give me hints towards a good and efficient way to implement each
+function. First, im trying to implement a static sized bitvector, it stores boolean bits in words of 64 bits using the
+type long. How do i make a shift() function?"
+
+All work done in this assignment is my own.
