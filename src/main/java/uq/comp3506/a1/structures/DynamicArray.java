@@ -248,7 +248,7 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      * A note on comparisons:
      *
      * You may assume that any type stored inside the DynamicArray already
-     * implements Comparable<T> which means you can just use compareTo()
+     * implements Comparable which means you can just use compareTo()
      * in order to sort elements.
      *
      * We will assume sorting in ascending, so you will want to do something
