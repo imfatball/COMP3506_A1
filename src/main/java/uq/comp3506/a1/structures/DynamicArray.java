@@ -85,7 +85,9 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
         start = 0;
     }
 
-    private int at(int i) { return (start + i) % capacity; }
+    private int at(int i) {
+        return (start + i) % capacity;
+    }
 
     /**
      * Checks the bounds on the DA
@@ -111,8 +113,8 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
         if (isFull()) {
             double_capacity();
         }
-        int new_index = at(size);
-        data[new_index] = element;
+        int newIndex = at(size);
+        data[newIndex] = element;
         size++;
         return true;
     }
@@ -187,9 +189,9 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
     @Override
     public T set(int ix, T element) {
         checkBounds(ix, true);
-        T old_data = data[at(ix)];
+        T oldData = data[at(ix)];
         data[at(ix)] = element;
-        return old_data;
+        return oldData;
     }
 
     /**
@@ -201,17 +203,12 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
 
     public T remove(int ix) {
         checkBounds(ix, true);
-        T old = data[at(ix)];
-
-
+        final T old = data[at(ix)];
         for (int j = ix; j < size - 1; j++) { // shifts everything past ix one to the left
             data[at(j)] = data[at(j + 1)];
         }
-
-
         data[at(size - 1)] = null; // turn the now empty tail slot into null
         size--;
-
         return old;
     }
 
@@ -225,8 +222,8 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      */
     @Override
     public boolean removeFirst(T t) {
-        for(int i = 0; i < size; i++) {
-            if((t == null ? data[at(i)] == null : t.equals(data[at(i)]))){
+        for (int i = 0; i < size; i++) {
+            if ((t == null ? data[at(i)] == null : t.equals(data[at(i)]))) {
                 remove(i);
                 return true;
             }
@@ -259,8 +256,9 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
      */
     public void sort() {
         int n = size;
-        if (n == 0) return;
-
+        if (n == 0) {
+            return;
+        }
 
         T[] temp = (T[]) new Comparable[n];
         for (int i = 0; i < n; i++) {
@@ -274,27 +272,31 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
             }
         }
 
-
         if (n == 1) {
             data[0] = temp[0];
             start = 0;
             return;
         }
 
-
         T[] dest = (T[]) new Comparable[n];
 
-        // merge sort, bottom up, starts at width 1, merge sort, combine,and double width until the width is larger than the size
+        // merge sort, bottom up, starts at width 1, merge sort, combine,
+        // and double width until the width is larger than the size
         for (int width = 1; width < n; width <<= 1) {
             int left = 0;
             while (left < n) {
                 int mid = Math.min(left + width, n);
                 int right = Math.min(left + (width << 1), n);
-                int i = left, j = mid, k = left;
-
-                while (i < mid && j < right) { // element by element compare and slot in for the combine step of merge sort
-                    if (temp[i].compareTo(temp[j]) <= 0) dest[k++] = temp[i++];
-                    else dest[k++] = temp[j++];
+                int i = left;
+                int j = mid;
+                int k = left;
+                // element by element compare and slot in for the combine step of merge sort
+                while (i < mid && j < right) {
+                    if (temp[i].compareTo(temp[j]) <= 0) {
+                        dest[k++] = temp[i++];
+                    } else {
+                        dest[k++] = temp[j++];
+                    }
                 }
 
                 while (i < mid) {
@@ -305,11 +307,12 @@ public class DynamicArray<T extends Comparable<T>> implements ListInterface<T> {
                 }
                 left = right;
             }
-            T[] tmp = temp; temp = dest; dest = tmp; // swap temp array to bounce between arrays while swapping
+            T[] tmp = temp;
+            temp = dest;
+            dest = tmp; // swap temp array to bounce between arrays while swapping
         }
 
-
-        for(int i = 0; i < n; i++) { // Copy sorted back and normalize
+        for (int i = 0; i < n; i++) { // Copy sorted back and normalize
             data[i] = temp[i];
         }
         start = 0;

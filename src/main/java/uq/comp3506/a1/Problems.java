@@ -4,7 +4,6 @@ package uq.comp3506.a1;
 
 // This is part of COMP3506 Assignment 1. Students must implement their own solutions.
 
-import uq.comp3506.a1.structures.BitVector;
 import uq.comp3506.a1.structures.DynamicArray;
 
 /**
@@ -24,7 +23,9 @@ public class Problems {
      * input will have up to 100'000 characters
      */
     public static String shortRuns(String input) {
-        if (input == null || input.isEmpty()) return "";
+        if (input == null || input.isEmpty()) {
+            return "";
+        }
         StringBuilder out = new StringBuilder();
         int run = 1;
         for (int i = 1; i < input.length(); i++) {
@@ -33,7 +34,8 @@ public class Problems {
             } else {
                 char c = input.charAt(i - 1);
                 while (run > 9) {
-                    out.append(c).append(9); run -= 9;
+                    out.append(c).append(9);
+                    run -= 9;
                 }
                 out.append(c).append(run);
                 run = 1;
@@ -41,7 +43,10 @@ public class Problems {
         }
         // appends the last run of characters
         char c = input.charAt(input.length() - 1);
-        while (run > 9) { out.append(c).append(9); run -= 9; }
+        while (run > 9) {
+            out.append(c).append(9);
+            run -= 9;
+        }
         out.append(c).append(run);
         return out.toString();
     }
@@ -58,6 +63,7 @@ public class Problems {
         }
         return max;
     }
+
     /**
      * Return the maximum score that can be achieved within exactly
      * "turns" turns
@@ -78,11 +84,11 @@ public class Problems {
      * There will be up to 10'000'000 turns
      */
     public static long arithmeticRules(Long[] array, long turns) {
-        if(turns <= 0 || array.length == 0) {
+        if (turns <= 0 || array.length == 0) {
             return 0;
         }
         long max = findMax(array);
-        return (max * turns + (turns -1)*turns/2);
+        return (max * turns + (turns - 1) * turns / 2);
     }
 
     /**
@@ -103,10 +109,10 @@ public class Problems {
         }
         double difference = 2;
         double answer = (double) number / 2;
-        while(difference > epsilon) {
-            double new_iter = 0.5*(answer + (number/answer));
-            difference = Math.abs(new_iter*new_iter - number);
-            answer = new_iter;
+        while (difference > epsilon) {
+            double newIter = 0.5 * (answer + (number / answer));
+            difference = Math.abs(newIter * newIter - number);
+            answer = newIter;
         }
         return answer;
     }
@@ -124,10 +130,12 @@ public class Problems {
      * There will be up to 100'000 numbers in the array
      */
     public static long spaceOddity(Long[] numbers) {
-        if (numbers.length == 0) return -1;
+        if (numbers.length == 0) {
+            return -1;
+        }
         DynamicArray<Long> arr = new DynamicArray<>();
-        for (Long aLong : numbers) {
-            arr.append(aLong);
+        for (Long number : numbers) {
+            arr.append(number);
         }
         arr.sort();
         int i = arr.size() - 1;
@@ -151,22 +159,23 @@ public class Problems {
      * Helper method to convert any number to base k, stored in a given buffer.
      * returns the length of the base k number
      *
-     * @param X number
+     * @param x number
      * @param k base
      * @param buf given buffer
      * @return length of base k number
      */
-    private static int toBaseK(long X, long k, int[] buf) {
-        if (X == 0) {
-            buf[0] = 0; return 1;
+    private static int toBaseK(long x, long k, int[] buf) {
+        if (x == 0) {
+            buf[0] = 0;
+            return 1;
         }
 
         int len = 0;
 
         int[] tmp = new int[70]; //at most 64 bits
-        while (X > 0) {
-            tmp[len++] = (int)(X % k); //LSB goes in first
-            X /= k; //integer division gets rids of LSB
+        while (x > 0) {
+            tmp[len++] = (int) (x % k); //LSB goes in first
+            x /= k; //integer division gets rids of LSB
         }
         // reverse to MSB→LSB
         for (int i = 0; i < len; i++) {
@@ -178,35 +187,39 @@ public class Problems {
     /**
      * gives back how many numbers SMALLER or EQUAL to X base k is k-freaky
      */
-    private static long countUpTo(long X, long k) {
+    private static long countUpTo(long x, long k) {
         // Negative bound is just empty set.
-        if (X < 0) {
+        if (x < 0) {
             return 0;
         }
         // base 1
         // can only be list of zeros, only 0 or 1 can be 1-freaky
         if (k == 1)  {
-            return Math.min(X, 1) + 1; // 1 if {0}, 2 if {0,1}
+            return Math.min(x, 1) + 1; // 1 if {0}, 2 if {0,1}
         }
         // every number is 2-freaky
         // all integers up to X inclusive
         if (k == 2) {
-            return X + 1;
+            return x + 1;
         }
 
         // Convert X to base-k digits
         int[] digits = new int[70];
-        int L = toBaseK(X, k, digits); // amount of digits in base k
+        int digitCount = toBaseK(x, k, digits); // amount of digits in base k
 
         long count = 0L;
         // walk MSB->LSB.
-        // for each digit, add the number of possible ways the remaining digits can be(0 or 1) to count
-        // if a digit is 0 then you cannot change this digit to make the number smaller, so it doesnt add to the possibilities
-        // if a digit is 1 then you can change it to a 0 to count the number small than X, giving 2^remaining digits possibilities
-        // if a digit is 2 or above then changing it to 0 or 1 will make it smaller, making 2* 2^ remaining digits possibilities
-        for (int i = 0; i < L; i++) {
+        // for each digit, add the number of possible ways the remaining digits
+        // can be(0 or 1) to count
+        // if a digit is 0 then you cannot change this digit to make the number smaller,
+        // so it doesnt add to the possibilities
+        // if a digit is 1 then you can change it to a 0 to count the number small than X,
+        // giving 2^remaining digits possibilities
+        // if a digit is 2 or above then changing it to 0 or 1 will make it smaller,
+        // making 2* 2^ remaining digits possibilities
+        for (int i = 0; i < digitCount; i++) {
             int digit = digits[i];
-            int rem = L - 1 - i; // how many positions remain after i
+            int rem = digitCount - 1 - i; // how many positions remain after i
 
             if (digit == 0) {
                 continue;
@@ -218,7 +231,8 @@ public class Problems {
             }
             count += 1L << (rem + 1); //2^2rem patterns for the digits after it
 
-            // if LSB of X is 0 or 1 we would continue and exit the loop, so if we reach here X is not k-freaky
+            // if LSB of X is 0 or 1 we would continue and exit the loop,
+            // so if we reach here X is not k-freaky
 
             return count;
         }
@@ -245,23 +259,28 @@ public class Problems {
      * k will be up to 10'000
      */
     public static long freakyNumbers(long m, long n, long k) {
-        long low = Math.min(m, n), high = Math.max(m, n);
-        return countUpTo(high, k) - countUpTo(low - 1, k); // countUpTo(m) - countUpTO(n) = count([m,n])
+        long low = Math.min(m, n);
+        long high = Math.max(m, n);
+        // countUpTo(m) - countUpTO(n) = count([m,n])
+        return countUpTo(high, k) - countUpTo(low - 1, k);
     }
+
     private static final long IMPOSSIBLE = 1L << 60;
-    private static long[][][] listMemo; // stores all the permutations of cut on long and short side, and its associated cost
+    // stores all the permutations of cut on long and short side, and its associated cost
+    private static long[][][] listMemo;
+
     /**
      * top down recursive function for solving the minimum cost
      * @param m side 1
      * @param n side 2
      * @param k desired squares
-     * @return
+     * @return best cost
      */
     private static long findBest(int m, int n, int k) {
 
         int shortSide = m;
         int longSide = n;
-        if(m > n){
+        if (m > n) {
             shortSide = n;
             longSide = m;
         }
@@ -278,12 +297,15 @@ public class Problems {
 
         long cached;
         // Memo lookup (memo is sized so that indices are in-range)
-        if(shortSide <= listMemo.length - 1 && longSide <= listMemo[0].length - 1 && k <= listMemo[0][0].length - 1){
+        if (shortSide <= listMemo.length - 1 && longSide
+                <= listMemo[0].length - 1 && k <= listMemo[0][0].length - 1) {
             cached = listMemo[shortSide][longSide][k];
-        }else{
+        } else {
             cached = -2L; // -2 means not in array for state
         }
-        if (cached >= 0) return cached;
+        if (cached >= 0) {
+            return cached;
+        }
 
         if (m == 1) { // if its a strip then anything shorter is achievable in one cut
             return 1L;
@@ -302,24 +324,26 @@ public class Problems {
         }
 
         // try breaking on the short side
-        for(int i = 1; i <= shortSide - 1; i++){
+        for (int i = 1; i <= shortSide - 1; i++) {
             long base = (long) longSide * longSide; // base cost for splitting along the short side
 
             // rules out the further split values that is infeasible
-            int lowest_break = Math.max(0, k - (shortSide-i) * longSide);
-            int highest_break = Math.min(k, i * longSide);
-            for(int j = lowest_break; j <= highest_break; j++){
+            int lowestBreak = Math.max(0, k - (shortSide - i) * longSide);
+            int highestBreak = Math.min(k, i * longSide);
+            for (int j = lowestBreak; j <= highestBreak; j++) {
                 long div1 = findBest(i, longSide, j); //recursively call for sub-rectangles
-                if(div1>=IMPOSSIBLE){
+                if (div1 >= IMPOSSIBLE) {
                     continue;
                 }
                 long div2 = findBest(shortSide - i, longSide, k - j);
-                if(div2 >= IMPOSSIBLE){
+                if (div2 >= IMPOSSIBLE) {
                     continue;
                 }
                 long total = base + div1 + div2;
-                if(total < best){
-                    best = total; // if value of these breaks added from recursion are better than the best one so far, update best
+                if (total < best) {
+                    // if value of these breaks added from recursion are
+                    // better than the best one so far, update best
+                    best = total;
                 }
             }
         }
@@ -329,21 +353,28 @@ public class Problems {
             long base = (long) shortSide * shortSide;
 
 
-            int sLo = Math.max(0, k - shortSide * (longSide - x));
-            int sHi = Math.min(k, shortSide * x);
+            int lowestBreak = Math.max(0, k - shortSide * (longSide - x));
+            int highestBreak = Math.min(k, shortSide * x);
 
-            for (int s = sLo; s <= sHi; s++) {
+            for (int s = lowestBreak; s <= highestBreak; s++) {
                 long c1 = findBest(shortSide, x, s);
-                if (c1 >= IMPOSSIBLE) continue;
+                if (c1 >= IMPOSSIBLE) {
+                    continue;
+                }
                 long c2 = findBest(shortSide, longSide - x, k - s);
-                if (c2 >= IMPOSSIBLE) continue;
+                if (c2 >= IMPOSSIBLE) {
+                    continue;
+                }
                 long total = base + c1 + c2;
-                if (total < best) best = total;
+                if (total < best) {
+                    best = total;
+                }
             }
         }
         listMemo[shortSide][longSide][k] = best; // stores the best one so far
         return best;
     }
+
     /**
      * Return the optimal (minimum) cost of breaking the chocolate
      * <p>
@@ -363,22 +394,22 @@ public class Problems {
         if (m < 0 || n < 0 || k < 0) {
             return IMPOSSIBLE;
         }
-        if (m == 0 || n == 0){
-            if(k == 0){
+        if (m == 0 || n == 0) {
+            if (k == 0) {
                 return 0;
-            }else{
+            } else {
                 return IMPOSSIBLE;
             }
         }
 
         // determines what the maximum size memo we need for each input
-        int aMax = Math.max(1, Math.min(m, n));
-        int bMax = Math.max(1, Math.max(m, n));
-        int kMax = Math.max(0, Math.min(k, m * n));
-        listMemo = new long[aMax + 1][bMax + 1][kMax + 1];
-        for (int a = 0; a <= aMax; a++) {
-            for (int b = 0; b <= bMax; b++) {
-                for (int t = 0; t <= kMax; t++) {
+        int shortSideMax = Math.min(m, n);
+        int longSideMax = Math.max(m, n);
+        int maxK = Math.max(0, Math.min(k, m * n));
+        listMemo = new long[shortSideMax + 1][longSideMax + 1][maxK + 1];
+        for (int a = 0; a <= shortSideMax; a++) {
+            for (int b = 0; b <= longSideMax; b++) {
+                for (int t = 0; t <= maxK; t++) {
                     listMemo[a][b][t] = -1L; // sets all to -1 for unknown/unexplored
                 }
             }

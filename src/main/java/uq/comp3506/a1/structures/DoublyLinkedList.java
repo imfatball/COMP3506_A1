@@ -183,8 +183,8 @@ public class DoublyLinkedList<T> implements ListInterface<T> {
         checkBounds(idx, true);
         if (idx == 0) {
             Node node = head;
-            T data = node.getData();
             head = head.getNext();
+            T data = node.getData();
             if (head != null) {
                 head.setPrev(null);
             } else {
@@ -203,9 +203,9 @@ public class DoublyLinkedList<T> implements ListInterface<T> {
         Node prev = cur.getPrev();
         Node next = cur.getNext();
         prev.setNext(next);
-        if(next != null) {
+        if (next != null) {
             next.setPrev(prev);
-        }else{
+        } else {
             tail = prev;
         }
         size -= 1;
@@ -225,15 +225,14 @@ public class DoublyLinkedList<T> implements ListInterface<T> {
         while (cur != null && cur.getData() != t) {
             cur = cur.getNext();
         }
-        if(cur == null) {
+        if (cur == null) {
             return false;
         }
         if (cur == head) {
             head = cur.getNext();
             if (head != null) {
                 head.setPrev(null);
-            }
-            else {
+            } else {
                 tail = null; // list becomes empty
             }
         } else if (cur == tail) {
