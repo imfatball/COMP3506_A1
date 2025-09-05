@@ -2,14 +2,102 @@ Student ID:47068591
 
 Statement
 ---------
-ChatGPT 5 was used in the process of writing this assignment. I used chatGPT for inspiration, concept tutoring, and
-bug-hunting. None of the code itself is provided by genAI. I used it to ask questions about the problems, specifically
-telling it to not give me any code. One of prompts used is:
-"Im working on a project to create data structures
-with only primitive types and operations. I can only use Java primitive types like int, char, boolean, static arrays
-(like int[], Object[]), control structures, classes, methods, constructors, generics, System.out, Math, and basic
-exception handling. Dont give me any code, only give me hints towards a good and efficient way to implement each
-function. First, im trying to implement a static sized bitvector, it stores boolean bits in words of 64 bits using the
-type long. How do i make a shift() function?"
+ChatGPT 5 was used in the process of writing this assignment. I used chatGPT for inspiration, concept tutoring,
+and test generation. I used it to ask questions about the problems, specifically
+telling it to not give me any code other than tests. Here are the conversation transcripts:
+User:
+Im working on a java project, i have to build data structures and algorithms according to these rules:
+You are not allowed to use pre-built data structures beyond primitives – this is an algorithms and data structures
+course, after all. This means you may not import java.util.Collections or use any pre-built structures from
+java.util.* including, but not limited to, ArrayList, LinkedList, HashMap, HashSet, and so on.
+You cannot use java.util.stream, Arrays.sort, or other similar data structure utilities. Please use your common sense
+– the goal of this course is for you to learn how these fundamental data structures work under the hood.
+If you are in doubt, please implement the utility yourself, or check with us. ✦ You are allowed to use Java primitive
+types like int, char, boolean, static arrays (like int[], Object[]), control structures, classes, methods,
+constructors, generics, System.out, Math, and basic exception handling. You may also use System.arraycopy if
+convenient. You can also use boxed primitives like Integer or Boolean as well as String objects.
+For each part of the assignment i will need guidance on related topics, and ideas on how to optimize my algorithms.
+NEVER give me any code, Only give me hints as to what direction i should go in. The first section is on dynamic arrays ...
 
+Assistant:
+Great question — this is an important part of your assignment since your `DynamicArray<T>`
+is generic but also needs to support sorting.... Would you like me to also give you directional hints on which sorting
+algorithm is best for your case (given the assignment’s restrictions), or do you want to figure that part out on your own?
+
+User:
+Ive done sort, but it is running slower than O(nlogn). Can you give me some tips as to how to make it O(nlogn)?
+
+Assistant:
+Gotcha—here are direction-only tips to make (and *keep*) your sort at **O(n log n)** under your constraints, without any code: ...
+
+User:
+Ok, im moving on to bitVector, heres the specifications: ... Im not very familiar with bitwise operations, can you give me a crashcourse?
+
+Assistant:
+awesome — here’s a tight, code-free crash course + implementation hints tailored to your BitVector spec....
+
+User:
+Can you explain rotate a bit more
+
+Assistant:
+Absolutely — rotation is one of the trickier ones conceptually, so let’s slow it down and walk through it carefully....
+
+User:
+Ok, ive moved on to algorithm problems. Heres the specifications: ... Can you explain more about arithmetic rules? Im confused about the wording
+
+Assistant:
+Yeah, the wording on **Arithmetic Rules** is a little dense — let’s break it down clearly....
+
+User:
+for freaky numbers, i did a base k swap on the number then looped through all of them between m and n to see which
+ones are only consisted of 1s and 0s. This seems quite inefficient but i dont know what other ways i can do it.
+Can you give me a little hint how to do it more efficiently?
+
+Assistant:
+Great instinct spotting the inefficiency....
+
+User:
+Im just completely stuck on lifeIsSweet, im thinking of using a UCS search but i cant use a
+priority queue(or i need to implement one). Can you give me a hint as to what directiong i should start thinking in?
+
+Assistant:
+Great call to step back from UCS here — this one screams **dynamic programming on rectangles**, not search....
+
+User:
+can you tell me more about the practical accelerators? Im quite unfamiliar
+with caching/ memoization and i dont understand what you mean by lower bound check
+
+Assistant:
+Perfect — let’s slow down and zoom in on those “accelerators,” because they’re what make this problem
+tractable without brute-forcing everything....
+
+User:
+yes please
+
+Assistant:
+Love this—let’s work through a concrete case and use it to show **memoization**, **symmetry**, **feasible x-ranges**,
+and the (actually) **upper-bound** pruning idea....
+
+User:
+Ok thanks. Im moving on to the last part on data structure design. Here are the specifications:
+... can you give me some hints on how to get started?
+
+Assistant:
+Love this capstone — here’s a clean, code-free game plan that fits your rules and time bounds....
+
+User:
+im confused about the rolling code part, what does that mean?
+
+Assistant:
+Great you asked — the “rolling code” idea is subtle at first but it’s the trick that
+keeps your queries at **O(w)** instead of **O(w·k)**....
+
+User:
+Does this mean i need a seperate private class to deal with the k-mers?
+
+Assistant:
+Good thinking — that’s a design choice question. You **don’t have to**,
+but making a helper abstraction often makes your code cleaner and less bug-prone....
+
+The full non-truncated conversation was extremely lengthy, I will provide the full version if it is asked of me.
 All work done in this assignment is my own.
